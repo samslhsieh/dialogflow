@@ -1,0 +1,40 @@
+{
+    "name": "samslhsieh/dialogflow",
+    "description": "dialogflow is a laravel package for can be provider google Dialogflow service",
+    "type": "library",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Sam S.L Hsieh",
+            "email": "shenglung0619@gmail.com",
+            "homepage": "https://www.samhsieh.tw",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^7.0",
+        "google/cloud-dialogflow": "dev-master",
+        "illuminate/support": ">=4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Samslhsieh\\Dialogflow\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Samslhsieh\\Dialogflow\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Samslhsieh\\Dialogflow\\DialogflowServiceProvider"
+            ],
+            "aliases": {
+                "Dialogflow": "Samslhsieh\\Dialogflow\\Facades\\Dialogflow"
+            }
+        }
+    }
+}
