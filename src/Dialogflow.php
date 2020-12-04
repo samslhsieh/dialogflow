@@ -4,10 +4,10 @@ namespace Samslhsieh\Dialogflow;
 
 use Google\Protobuf\Value;
 use Google\Protobuf\Struct;
+use Google\Cloud\Dialogflow\V2\TextInput;
 use Google\Cloud\Dialogflow\V2\QueryInput;
 use Google\Cloud\Dialogflow\V2\QueryParameters;
 use Google\Cloud\Dialogflow\V2\SessionsClient;
-use Google\Cloud\Dialogflow\V2\TextInput;
 use Illuminate\Support\Facades\Storage;
 use Samslhsieh\Dialogflow\Exceptions\DialogflowException;
 
@@ -25,6 +25,7 @@ class Dialogflow
     protected SessionsClient $sessionsClient;
     protected string $session;
     protected string $text;
+    protected $queryResult;
     protected $message;
 
     public function __construct(array $options = [])
@@ -67,10 +68,10 @@ class Dialogflow
         );
         $this->close();
 
-        $queryResult = $response->getQueryResult();
+        $this->queryResult = $response->getQueryResult();
 
-        $this->text = $queryResult->getFulfillmentText();
-        $this->message = $queryResult->getFulfillmentMessages();
+        $this->text = $this->queryResult->getFulfillmentText();
+        $this->message = $this->queryResult->getFulfillmentMessages();
 
         return $this->text;
     }
@@ -186,5 +187,34 @@ class Dialogflow
     public function getMessage()
     {
         return $this->message;
+    }
+
+    public function getInstance()
+    {
+        return $this;
+    }
+
+    public function getQueryResult()
+    {
+        return $this->queryResult;
+    }
+
+    public function getParameters()
+    {
+        if (!isset($this->queryResult)) {
+            return null;
+        }
+
+        $json = json_decode($this->queryResult->serializeToJsonString(), true);
+        return $json['parameters'];
+    }
+
+    public function toJson()
+    {
+        if (!isset($this->queryResult)) {
+            return null;
+        }
+
+        return json_decode($this->queryResult->serializeToJsonString(), true);
     }
 }
