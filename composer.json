@@ -13,7 +13,7 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "php": "^7.0",
+        "php": "^7.0|^8.0",
         "google/cloud-dialogflow": "dev-master",
         "illuminate/support": ">=4.0"
     },
